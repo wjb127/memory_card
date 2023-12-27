@@ -86,7 +86,8 @@ class _QuizListScreenState extends State<QuizListScreen> {
                 IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
-                    _deleteQuiz(index);
+                    _confirmDeleteQuiz(index);
+                    //_deleteQuiz(index);
                   },
                 ),
               ],
@@ -128,6 +129,40 @@ class _QuizListScreenState extends State<QuizListScreen> {
       ),
     );
   }
+
+  void _confirmDeleteQuiz(int index) {
+    _showDeleteConfirmationDialog(context, () {
+      _deleteQuiz(index);
+    }, '정말로 이 퀴즈를 삭제하시겠습니까?');
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context, Function onConfirm, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // 팝업창 닫기
+              },
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () {
+                onConfirm(); // 실제 삭제 작업 수행
+                Navigator.of(context).pop(); // 팝업창 닫기
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   // 퀴즈의 답을 보여주는 팝업창을 생성하는 메서드
   void _showAnswerDialog(BuildContext context, Quiz quiz) {
@@ -551,7 +586,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: Icon(Icons.delete),
                         onPressed: () {
                           // Delete the button
-                          _deleteButton(index);
+                          _confirmDeleteButton(index);
+                          //_deleteButton(index);
                         },
                       ),
                     ],
@@ -574,6 +610,42 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
+  // 퀴즈 목록 삭제를 위한 확인 팝업창을 표시하는 메서드
+  void _confirmDeleteButton(int index) {
+    _showDeleteConfirmationDialog(
+        context,
+            () => _deleteButton(index),
+        '퀴즈 목록을 정말로 삭제하시겠습니까?'
+    );
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context, Function onConfirm, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // 팝업창 닫기
+              },
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () {
+                onConfirm(); // 실제 삭제 작업 수행
+                Navigator.of(context).pop(); // 팝업창 닫기
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   Future<void> _showAddButtonDialog(BuildContext context) async {
     String newButtonText = '';
 
