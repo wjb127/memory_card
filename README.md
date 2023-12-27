@@ -1,6 +1,13 @@
 
 Memory Card for memory practice
 
+앱 개발 포트폴리오용 및 내가 직접 사용하려고 만듦
+
+사용법
+
+추가 요구사항
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
