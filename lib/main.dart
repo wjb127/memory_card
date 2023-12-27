@@ -136,7 +136,8 @@ class _QuizListScreenState extends State<QuizListScreen> {
     }, '정말로 이 퀴즈를 삭제하시겠습니까?');
   }
 
-  void _showDeleteConfirmationDialog(BuildContext context, Function onConfirm, String message) {
+  void _showDeleteConfirmationDialog(
+      BuildContext context, Function onConfirm, String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -162,7 +163,6 @@ class _QuizListScreenState extends State<QuizListScreen> {
       },
     );
   }
-
 
   // 퀴즈의 답을 보여주는 팝업창을 생성하는 메서드
   void _showAnswerDialog(BuildContext context, Quiz quiz) {
@@ -360,7 +360,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
   Future<void> _showQuizDialogSequentially(
       BuildContext context, int level, int quizIndex) async {
     List<Quiz> filteredQuizzes =
-    quizzes.where((quiz) => quiz.level == level).toList();
+        quizzes.where((quiz) => quiz.level == level).toList();
 
     if (quizIndex >= filteredQuizzes.length) {
       return; // 모든 퀴즈를 마쳤을 때 로직
@@ -417,7 +417,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
                     } else {
                       _updateQuizLevel(currentQuiz, 0);
                       setState(() =>
-                      feedbackMessage = "틀렸습니다. 정답: ${currentQuiz.answer}");
+                          feedbackMessage = "틀렸습니다. 정답: ${currentQuiz.answer}");
 
                       Future.delayed(Duration(milliseconds: 3000), () {
                         Navigator.of(context).pop(); // 현재 팝업을 닫음
@@ -451,7 +451,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
 
   Future<void> _showQuizDialog(BuildContext context, int level) async {
     List<Quiz> filteredQuizzes =
-    quizzes.where((quiz) => quiz.level == level).toList();
+        quizzes.where((quiz) => quiz.level == level).toList();
 
     return showDialog(
       context: context,
@@ -610,17 +610,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
   // 퀴즈 목록 삭제를 위한 확인 팝업창을 표시하는 메서드
   void _confirmDeleteButton(int index) {
     _showDeleteConfirmationDialog(
-        context,
-            () => _deleteButton(index),
-        '퀴즈 목록을 정말로 삭제하시겠습니까?'
-    );
+        context, () => _deleteButton(index), '퀴즈 목록을 정말로 삭제하시겠습니까?');
   }
 
-  void _showDeleteConfirmationDialog(BuildContext context, Function onConfirm, String message) {
+  void _showDeleteConfirmationDialog(
+      BuildContext context, Function onConfirm, String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -646,6 +643,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
   Future<void> _showAddButtonDialog(BuildContext context) async {
     String newButtonText = '';
 
