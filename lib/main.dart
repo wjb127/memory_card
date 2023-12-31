@@ -39,6 +39,7 @@ class QuizListScreen extends StatefulWidget {
 // 퀴즈 리스트 스크린
 class _QuizListScreenState extends State<QuizListScreen> {
   List<Quiz> quizzes = [];
+  List<Quiz> filteredQuizzes = [];
 
   // 초기화 및 퀴즈 불러오기
   @override
@@ -363,7 +364,11 @@ class _QuizListScreenState extends State<QuizListScreen> {
                     onPressed: () {
                       selectedLevel = index;
                       Navigator.of(context).pop();
-                      _showQuizDialogSequentially(context, selectedLevel, 0);
+                      // 퀴즈 레벨로 필터링
+                      filteredQuizzes = quizzes
+                          .where((quiz) => quiz.level == selectedLevel)
+                          .toList();
+                      _showQuizDialogSequentially(context, filteredQuizzes, 0);
                     },
                     child: Text('Level $index'),
                   ),
@@ -386,10 +391,11 @@ class _QuizListScreenState extends State<QuizListScreen> {
 
   // 퀴즈 순차 실행
   Future<void> _showQuizDialogSequentially(
-      BuildContext context, int level, int quizIndex) async {
+      BuildContext context, List<Quiz> filteredQuizzes, int quizIndex) async {
+    print("quizIndex: ${quizIndex}");
     // 퀴즈 레벨로 필터링
-    List<Quiz> filteredQuizzes =
-        quizzes.where((quiz) => quiz.level == level).toList();
+    //List<Quiz> filteredQuizzes =
+    //    quizzes.where((quiz) => quiz.level == level).toList();
 
     // 모든 퀴즈를 마치면 끝내기
     if (quizIndex >= filteredQuizzes.length) {
@@ -460,8 +466,9 @@ class _QuizListScreenState extends State<QuizListScreen> {
                         Navigator.of(context).pop(); // 현재 팝업을 닫음
                         // 퀴즈 인덱스 확인하고 다음 문제 실행
                         if (quizIndex < filteredQuizzes.length - 1) {
+                          print("quizIndex: ${quizIndex}");
                           _showQuizDialogSequentially(
-                              context, level, quizIndex);
+                              context, filteredQuizzes, quizIndex + 1);
                         }
                       });
                     } else {
@@ -474,8 +481,9 @@ class _QuizListScreenState extends State<QuizListScreen> {
                         Navigator.of(context).pop(); // 현재 팝업을 닫음
                         // 퀴즈 인덱스 확인하고 다음 문제 실행
                         if (quizIndex < filteredQuizzes.length - 1) {
+                          print("quizIndex: ${quizIndex}");
                           _showQuizDialogSequentially(
-                              context, level, quizIndex);
+                              context, filteredQuizzes, quizIndex + 1);
                         }
                       });
                     }
